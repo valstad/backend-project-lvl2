@@ -36,8 +36,7 @@ export default (filepath1, filepath2) => {
     const obj1 = JSON.parse(file1);
     const obj2 = JSON.parse(file2);
     const result = makeDiff(obj1, obj2);
-    return(result);
-  } else {
-    return('unsupported file format');
+    return (result);
   }
+  return ('unsupported file format');
 };
