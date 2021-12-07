@@ -14,6 +14,4 @@ test('init', () => {
   const resultpath = getFixturePath('result.txt');
   const result = readFileSync(resultpath, 'utf8');
   expect(diff(filepath1, filepath2)).toBe(result.trim());
-  const anotherfile = getFixturePath('another.txt');
-  expect(diff(filepath1, anotherfile)).toBe('unsupported file format');
 });
