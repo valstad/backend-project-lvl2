@@ -9,3 +9,6 @@
 
 ### Plain JSON diff example
 https://asciinema.org/connect/36646837-452d-4da3-ac06-e66291cfb831
+
+### Nested JSON diff example
+https://asciinema.org/a/DqqoxJ6tArsB75EVuGxJDSc3u
