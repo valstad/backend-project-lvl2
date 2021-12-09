@@ -14,11 +14,11 @@ const makeDiff = (obj1, obj2) => {
     } else if (!_.has(obj2, key)) {
       diff[key] = { type: 'removed', valueRem: obj1[key] };
     } else if (isObject(obj1[key]) && isObject(obj2[key])) {
-      diff[key] = { type: 'equal', value: makeDiff(obj1[key], obj2[key]) };
+      diff[key] = { type: 'obj', value: makeDiff(obj1[key], obj2[key]) };
     } else if (obj1[key] === obj2[key]) {
       diff[key] = { type: 'equal', value: obj1[key] };
     } else {
-      diff[key] = { type: 'changed', valueAdd: obj2[key], valueRem: obj1[key] };
+      diff[key] = { type: 'updated', valueAdd: obj2[key], valueRem: obj1[key] };
     }
   });
   return diff;

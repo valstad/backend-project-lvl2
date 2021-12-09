@@ -1,7 +1,7 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import parse from './parser.js';
-import stylish from './stylish.js';
+import formate from './formatters/index.js';
 import makeDiff from './makeDiff.js';
 
 export default (filepath1, filepath2, formatter = 'stylish') => {
@@ -14,6 +14,5 @@ export default (filepath1, filepath2, formatter = 'stylish') => {
   const obj1 = parse(data1, ext1);
   const obj2 = parse(data2, ext2);
   const result = makeDiff(obj1, obj2);
-  if (formatter === 'stylish') return stylish(result);
-  return 'unknow formatter';
+  return formate(result, formatter);
 };
