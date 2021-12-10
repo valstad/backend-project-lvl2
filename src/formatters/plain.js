@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-const isObject = (something) => Object.prototype.toString.call(something) === '[object Object]';
+import { isObject } from '../util.js';
 
 const stringify = (data) => {
   const f = (val) => {
@@ -13,15 +12,12 @@ const stringify = (data) => {
     if (!isObject(tree)) {
       return `${tree}`;
     }
-    const result = Object
+    return Object
       .entries(tree)
       .reduce((acc, [key, value]) => {
-        if (!_.has(value, 'type')) {
-          return acc;
-        }
         const nextType = value.type;
         const newPath = [...path, key];
-
+        if (nextType === 'nested') return iter(value.value, newPath, acc);
         if (nextType === 'added') {
           return [...acc, `Property '${newPath.join('.')}' was added with value: ${f(value.valueAdd)}`];
         }
@@ -31,12 +27,8 @@ const stringify = (data) => {
         if (nextType === 'updated') {
           return [...acc, `Property '${newPath.join('.')}' was updated. From ${f(value.valueRem)} to ${f(value.valueAdd)}`];
         }
-        if (nextType === 'equal') {
-          return acc;
-        }
-        return iter(value.value, newPath, acc);
+        return acc;
       }, init);
-    return result;
   };
   return iter(data, [], []).join('\n');
 };

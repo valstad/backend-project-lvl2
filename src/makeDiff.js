@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-const isObject = (something) => Object.prototype.toString.call(something) === '[object Object]';
+import { isObject } from './util.js';
 
 const makeDiff = (obj1, obj2) => {
   const keys1 = Object.keys(obj1);
@@ -15,7 +14,7 @@ const makeDiff = (obj1, obj2) => {
       return { ...acc, [key]: { type: 'removed', valueRem: obj1[key] } };
     }
     if (isObject(obj1[key]) && isObject(obj2[key])) {
-      return { ...acc, [key]: { type: 'obj', value: makeDiff(obj1[key], obj2[key]) } };
+      return { ...acc, [key]: { type: 'nested', value: makeDiff(obj1[key], obj2[key]) } };
     }
     if (obj1[key] === obj2[key]) {
       return { ...acc, [key]: { type: 'equal', value: obj1[key] } };

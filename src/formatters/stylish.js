@@ -1,6 +1,4 @@
-import _ from 'lodash';
-
-const isObject = (something) => Object.prototype.toString.call(something) === '[object Object]';
+import { isObject } from '../util.js';
 
 const stringify = (data, replacer = ' ', spacesCount = 4) => {
   const spacer = replacer.repeat(spacesCount);
@@ -18,16 +16,17 @@ const stringify = (data, replacer = ' ', spacesCount = 4) => {
     const result = Object
       .entries(tree)
       .map(([key, value]) => {
-        if (!_.has(value, 'type')) {
-          return f(tab, spacer, key, iter(value, depth + 1));
-        }
         const nextType = value.type;
+        if (nextType === 'nested') {
+          return f(tab, spacer, key, iter(value.value, depth + 1));
+        }
         const rem = f(tab, spaceRem, key, iter(value.valueRem, depth + 1));
         const add = f(tab, spaceAdd, key, iter(value.valueAdd, depth + 1));
         if (nextType === 'added') return add;
         if (nextType === 'removed') return rem;
-        if (nextType === 'updated') return `${rem}\n${add}`;
-        return f(tab, spacer, key, iter(value.value, depth + 1));
+        if (nextType === 'updated') return [rem, add].join('\n');
+        if (nextType === 'equal') return f(tab, spacer, key, value.value);
+        return f(tab, spacer, key, iter(value, depth + 1));
       });
     return ['{', ...result, `${tab}}`].join('\n');
   };
