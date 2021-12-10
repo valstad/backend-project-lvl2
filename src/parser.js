@@ -1,11 +1,7 @@
 import yaml from 'js-yaml';
 
 export default (data, ext) => {
-  let parse;
-  if (ext === '.json') {
-    parse = JSON.parse;
-  } else if (ext === '.yml' || ext === '.yaml') {
-    parse = yaml.load;
-  }
-  return parse(data);
+  if (ext === '.json') return JSON.parse(data);
+  if (ext === '.yml' || ext === '.yaml') return yaml.load(data);
+  throw new Error('Unknown input file type');
 };

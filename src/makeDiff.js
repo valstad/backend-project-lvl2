@@ -7,20 +7,21 @@ const makeDiff = (obj1, obj2) => {
   const keys2 = Object.keys(obj2);
   const uniqKeys = _.union(keys1, keys2);
   const sortedUniqKeys = _.sortBy(uniqKeys);
-  const diff = {};
-  sortedUniqKeys.forEach((key) => {
+  const diff = sortedUniqKeys.reduce((acc, key) => {
     if (!_.has(obj1, key)) {
-      diff[key] = { type: 'added', valueAdd: obj2[key] };
-    } else if (!_.has(obj2, key)) {
-      diff[key] = { type: 'removed', valueRem: obj1[key] };
-    } else if (isObject(obj1[key]) && isObject(obj2[key])) {
-      diff[key] = { type: 'obj', value: makeDiff(obj1[key], obj2[key]) };
-    } else if (obj1[key] === obj2[key]) {
-      diff[key] = { type: 'equal', value: obj1[key] };
-    } else {
-      diff[key] = { type: 'updated', valueAdd: obj2[key], valueRem: obj1[key] };
+      return { ...acc, [key]: { type: 'added', valueAdd: obj2[key] } };
     }
-  });
+    if (!_.has(obj2, key)) {
+      return { ...acc, [key]: { type: 'removed', valueRem: obj1[key] } };
+    }
+    if (isObject(obj1[key]) && isObject(obj2[key])) {
+      return { ...acc, [key]: { type: 'obj', value: makeDiff(obj1[key], obj2[key]) } };
+    }
+    if (obj1[key] === obj2[key]) {
+      return { ...acc, [key]: { type: 'equal', value: obj1[key] } };
+    }
+    return { ...acc, [key]: { type: 'updated', valueAdd: obj2[key], valueRem: obj1[key] } };
+  }, {});
   return diff;
 };
 

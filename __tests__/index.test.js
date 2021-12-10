@@ -9,11 +9,7 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 describe('stylish', () => {
-  let result;
-
-  beforeEach(() => {
-    result = readFileSync(getFixturePath('resultStylish.txt'), 'utf8');
-  });
+  const result = readFileSync(getFixturePath('resultStylish.txt'), 'utf8');
 
   test('JSON stylish', () => {
     const filepath1 = getFixturePath('file1.json');
@@ -29,11 +25,7 @@ describe('stylish', () => {
 });
 
 describe('plain', () => {
-  let result;
-
-  beforeEach(() => {
-    result = readFileSync(getFixturePath('resultPlain.txt'), 'utf8');
-  });
+  const result = readFileSync(getFixturePath('resultPlain.txt'), 'utf8');
 
   test('JSON plain', () => {
     const filepath1 = getFixturePath('file1.json');
