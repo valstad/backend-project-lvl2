@@ -17,7 +17,7 @@ const makeDiff = (obj1, obj2) => {
       return { ...acc, [key]: { type: 'nested', value: makeDiff(obj1[key], obj2[key]) } };
     }
     if (obj1[key] === obj2[key]) {
-      return { ...acc, [key]: { type: 'equal', value: obj1[key] } };
+      return { ...acc, [key]: { type: 'intacted', value: obj1[key] } };
     }
     return { ...acc, [key]: { type: 'updated', valueAdd: obj2[key], valueRem: obj1[key] } };
   }, {});

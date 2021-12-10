@@ -25,7 +25,7 @@ const stringify = (data, replacer = ' ', spacesCount = 4) => {
         if (nextType === 'added') return add;
         if (nextType === 'removed') return rem;
         if (nextType === 'updated') return [rem, add].join('\n');
-        if (nextType === 'equal') return f(tab, spacer, key, value.value);
+        if (nextType === 'intacted') return f(tab, spacer, key, value.value);
         return f(tab, spacer, key, iter(value, depth + 1));
       });
     return ['{', ...result, `${tab}}`].join('\n');
